@@ -7,6 +7,7 @@ import com.piggymetrics.statistics.domain.ExchangeRatesContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -29,6 +30,7 @@ public class ExchangeRatesServiceImpl implements ExchangeRatesService {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Cacheable(value = "exchangeRates", key = "#root.methodName")
 	public Map<Currency, BigDecimal> getCurrentRates() {
 
 		if (container == null || !container.getDate().equals(LocalDate.now())) {
